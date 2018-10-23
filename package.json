@@ -1,0 +1,26 @@
+{
+  "name": "sepl-bpm-modeler",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A bpmn-js modeler for the SEPL platform",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SmartEnergyPlatform/process-designer.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "grunt": "~1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-copy": "~1.0.0",
+    "grunt-contrib-less": "^1.0.1",
+    "load-grunt-tasks": "~3.5.0"
+  },
+  "dependencies": {
+    "bpmn-js": "^0.17.0",
+    "bpmn-js-properties-panel": "^0.9",
+    "camunda-bpmn-moddle": "^0.8.1",
+    "diagram-js": "^0.17.0"
+  }
+}

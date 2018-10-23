@@ -1,0 +1,23 @@
+{
+  "name": "sepl-modeler",
+  "description": "A bpmn-js modeler for the SEPL platform",
+  "main": "dist/index.js",
+  "authors": [
+    "Robert Wehlitz <wehlitz@infai.org>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "app",
+    "styles",
+    "Gruntfile.js",
+    "package.json",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
