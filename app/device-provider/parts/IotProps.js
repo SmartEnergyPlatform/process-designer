@@ -251,7 +251,6 @@ module.exports = {
                 html: "<button class='bpmn-iot-button' data-action='editOutput'>Select Output-Variables</button>",
                 editOutput: function(element, node) {
                     var outputs = element.businessObject.extensionElements.values[0].outputParameters;
-                    console.log(outputs)
                     bpmnjs.designerCallbacks.editOutput(outputs, function(){
                         refresh();
                     });

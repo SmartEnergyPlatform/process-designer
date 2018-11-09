@@ -24,9 +24,9 @@ var PropertiesActivator = require('bpmn-js-properties-panel/lib/PropertiesActiva
 
 var CamundaProvider = require('bpmn-js-properties-panel/lib/provider/camunda').propertiesProvider[1];
 
-function IotDeviceProvider(eventBus, bpmnFactory, elementRegistry, elementTemplates, bpmnjs, replace, selection, modeling) {
+function IotDeviceProvider(eventBus, bpmnFactory, elementRegistry, elementTemplates, bpmnjs, replace, selection, modeling, translate) {
     this.getTabs = function(element) {
-        var camunda = new CamundaProvider(eventBus, bpmnFactory, elementRegistry, elementTemplates);
+        var camunda = new CamundaProvider(eventBus, bpmnFactory, elementRegistry, elementTemplates, translate);
         var camundaTabs = camunda.getTabs(element);
         camundaTabs[0].groups.unshift(createIotInfoGroup(element, bpmnjs));
         camundaTabs[0].groups.unshift(createIotExternalTaskGroup(element, bpmnjs, eventBus, bpmnFactory, replace, selection));
@@ -104,7 +104,8 @@ IotDeviceProvider.$inject = [
     'bpmnjs',
     'replace',
     'selection',
-    'modeling'
+    'modeling',
+    'translate'
 ];
 
 inherits(IotDeviceProvider, PropertiesActivator);

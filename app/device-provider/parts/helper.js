@@ -14,8 +14,8 @@
  *    limitations under the License.
  */
 
-var pick = require('lodash/object/pick');
-var assign = require('lodash/object/assign');
+var pick = require('lodash.pick');
+var assign = require('lodash.assign');
 
 var is = require('bpmn-js/lib/util/ModelUtil').is,
     isEventSubProcess = require('bpmn-js/lib/util/DiUtil').isEventSubProcess;

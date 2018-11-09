@@ -16,11 +16,14 @@
 
 'use strict';
 
+
 module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
 
     var path = require('path');
+
+    console.log("DEBUG", resolvePath('diagram-js', 'assets/diagram-js.css'))
 
     /**
      * Resolve external project resource as file path
@@ -33,28 +36,30 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        browserify: {
-
-            // create customized bower bundle
-            bower: {
-                files: {
-                    'dist/index.js': ['app/app.js']
+        webpack: {
+            prod: {
+                mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
+                entry: "./app/app.js", // string | object | array  // defaults to './src'
+                // Here the application starts executing
+                // and webpack starts bundling
+                output: {
+                    // options related to how webpack emits results
+                    path: path.resolve(__dirname, "dist"), // string
+                    // the target directory for all output files
+                    // must be an absolute path (use the Node.js path module)
+                    filename: "index.js", // string    // the filename template for entry chunks
+                    //publicPath: "/assets/", // string    // the url to the output directory resolved relative to the HTML page
+                    library: "SeplModeler", // string,
+                    // the name of the exported library
+                    libraryTarget: "window", // universal module definition    // the type of the exported library
+                    /* Advanced output configuration (click to show) */
                 },
-                options: {
-                    browserifyOptions: {
-                        standalone: 'SeplModeler',
-                        // strip unnecessary built-ins
-                        builtins: ['events'],
-                        insertGlobalVars: {
-                            process: function () {
-                                return 'undefined';
-                            },
-                            Buffer: function () {
-                                return 'undefined';
-                            }
-                        }
-                    }
-                }
+                resolve: {
+                    modules: [
+                        "node_modules",
+                    ],
+                    extensions: [".js", ".jsx", ".json"],
+                },
             }
         },
         copy: {
@@ -65,10 +70,10 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            bpmn_js: {
+            bpmn_font: {
                 files: [
                     {
-                        'dist/css/bpmn-embedded.css': resolvePath('bpmn-js', 'assets/bpmn-font/css/bpmn-embedded.css')
+                        'dist/css/bpmn-embedded.css': '/node_modules/bpmn-font/dist/css/bpmn-embedded.css'
                     }
                 ]
             },
@@ -93,8 +98,9 @@ module.exports = function (grunt) {
                     'dist/css/app.css': 'styles/app.less'
                 }
             }
-        },
+        }
     });
 
-    grunt.registerTask('default', ['copy', 'less', 'browserify:bower']);
+    grunt.loadNpmTasks('grunt-webpack');
+    grunt.registerTask('default', ['copy', 'less', 'webpack']);
 };

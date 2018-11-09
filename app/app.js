@@ -14,22 +14,39 @@
  *    limitations under the License.
  */
 
-//get bpmn-js
-var SeplModeler = require('bpmn-js/lib/Modeler');
+//import BpmnJS from 'bpmn-js/lib/Modeler'
+var Modeler = require('bpmn-js/lib/Modeler').default;
+var Viewer = require('bpmn-js/lib/Viewer').default;
+var panel = require('bpmn-js-properties-panel');
+var camunda_panel = require('bpmn-js-properties-panel/lib/provider/camunda');
+var device_provider = require('./device-provider');
 
-//load additional modules
 var additionalModules = [
-    require('bpmn-js-properties-panel'),
-    require('bpmn-js-properties-panel/lib/provider/camunda'),
-    require('./device-provider'),
+    panel,
+    camunda_panel,
+    device_provider
+    /*,
+    {translate: ['value', function (template, replacements) {
+        console.log("test", template, replacements);
+        replacements = replacements || {};
+        return template.replace(/{([^}]+)}/g, function(_, key) {
+            return replacements[key] || '{' + key + '}';
+        });
+    }]}
+    */
 ];
 
-//add additional (default!) modules to bpmn-js
-SeplModeler.prototype._modules = SeplModeler.prototype._modules.concat(additionalModules);
-
-//add camunda moddle descriptor
 var camundaModdleDescriptor = require('camunda-bpmn-moddle/resources/camunda');
-SeplModeler.prototype._moddleExtensions.camunda = camundaModdleDescriptor;
-
-//export
-module.exports = SeplModeler;
+module.exports = {
+    modeler: function (options) {
+        var extendedOptions = options;
+        extendedOptions.additionalModules = additionalModules;
+        extendedOptions.moddleExtensions = {
+            camunda: camundaModdleDescriptor
+        };
+        return new Modeler(extendedOptions)
+    },
+    viewer: function (options) {
+        return new Viewer(options)
+    }
+};
